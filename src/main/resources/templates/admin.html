@@ -1,0 +1,49 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<html>
+<head>
+    <title>Users</title>
+    <style>
+        table, th, td {
+            border: 1px solid black;
+        }
+        #add {
+            position: absolute;
+            right: 900px;
+            top: -10px;
+        }
+
+    </style>
+</head>
+<body>
+<h1>Users:</h1>
+<table >
+    <tr>
+        <th width="80">Id</th>
+        <th width="120">Name</th>
+        <th width="120">Street</th>
+        <th width="100">Age</th>
+        <th width="55"></th>
+        <th width="50"></th>
+    </tr>
+        <tr th:each = "user:listPersons" >
+            <td th:utext = "${user.id}"</td>
+            <td th:utext = "${user.name}"</td>
+            <td th:utext = "${user.street}"</td>
+            <td th:utext = "${user.age}"</td>
+            <td><a th:href="@{admin/edit/{id}(id=${user.id})}" th:method="get">Edit</a></td>
+            <td><a th:href="@{admin/delete/{id}(id=${user.id})}" th:method="get">Delete</a></td>
+        </tr>
+
+    </c:forEach>
+</table>
+<h2 align="center" border="1" cellpadding="5"><a href="<c:url value='/login/logout' />" >Logout</a></h2>
+<div id="add">
+    <h1>Add User</h1>
+    <form th:href="@{admin/newuser}" th:method="get">
+        <input type="submit" value="Add ">
+    </form>
+</div>
+</body>
+</html>
+

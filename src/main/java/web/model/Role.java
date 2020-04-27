@@ -16,7 +16,8 @@ public class Role implements GrantedAuthority {
     @Column(name = "name")
     private String name;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @Transient
+    @ManyToMany(mappedBy = "roles")
     private Set<Role> user;
 
     public Role() {
@@ -45,6 +46,14 @@ public class Role implements GrantedAuthority {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Set<Role> getUser() {
+        return user;
+    }
+
+    public void setUser(Set<Role> user) {
+        this.user = user;
     }
 
     @Override

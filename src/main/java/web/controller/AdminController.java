@@ -39,12 +39,9 @@ public class AdminController {
 
     @PostMapping(value = "/newuser")
     public String createUser(@ModelAttribute("listPersons") User user, ModelMap model) {
-        if(userServiceImpl.checkUser(user)) {
-            userServiceImpl.add(user);
-            model.addAttribute("listPersons", userServiceImpl.listUsers());
-            return "redirect:/admin/";
-        }
-        return "redirect:error";
+        userServiceImpl.add(user);
+        model.addAttribute("listPersons", userServiceImpl.listUsers());
+        return "redirect:/admin/";
     }
 
     @GetMapping(value = "/newuser")
