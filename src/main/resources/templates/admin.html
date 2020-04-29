@@ -5,7 +5,7 @@
     <title>Users</title>
     <style>
         table, th, td {
-            border: 1px solid black;
+            border: 1px solid #000000;
         }
         #add {
             position: absolute;
@@ -26,21 +26,22 @@
         <th width="55"></th>
         <th width="50"></th>
     </tr>
-        <tr th:each = "user:listPersons" >
+        <tr th:each ="user : ${users}">
             <td th:utext = "${user.id}"</td>
             <td th:utext = "${user.name}"</td>
             <td th:utext = "${user.street}"</td>
             <td th:utext = "${user.age}"</td>
-            <td><a th:href="@{admin/edit/{id}(id=${user.id})}" th:method="get">Edit</a></td>
-            <td><a th:href="@{admin/delete/{id}(id=${user.id})}" th:method="get">Delete</a></td>
+            <td align="2px"><form th:action="@{/admin/edit/{id}(id=${user.id})}" method="GET"><input type="submit" value="UPDATE" /></form></td>
+            <td align="2px"><form th:action="@{/admin/delete/{id}(id=${user.id})}" method="get"><input type="submit" value="DELETE" /></form></td>
         </tr>
 
     </c:forEach>
 </table>
-<h2 align="center" border="1" cellpadding="5"><a href="<c:url value='/login/logout' />" >Logout</a></h2>
+<a href="/logout">Log out</a>
 <div id="add">
     <h1>Add User</h1>
-    <form th:href="@{admin/newuser}" th:method="get">
+    <form th:action="@{/admin/newuser}"
+          method="GET">
         <input type="submit" value="Add ">
     </form>
 </div>

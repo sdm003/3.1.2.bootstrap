@@ -32,7 +32,7 @@ public class User implements UserDetails {
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "roles_id", referencedColumnName = "id")
     )
-    private Set<Role> role;
+    private Set<Role> roles;
 
     public User() {
     }
@@ -50,12 +50,12 @@ public class User implements UserDetails {
         this.street = street;
     }
 
-    public User(String name, int age, String street, String password, Set<Role> role) {
+    public User(String name, int age, String street, String password, Set<Role> roles) {
         this.name = name;
         this.age = age;
         this.street = street;
         this.password = password;
-        this.role = role;
+        this.roles = roles;
     }
 
     public Long getId() {
@@ -92,7 +92,7 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return getRole();
+        return getRoles();
     }
 
     @Override
@@ -129,11 +129,11 @@ public class User implements UserDetails {
         this.password = password;
     }
 
-    public Set<Role> getRole() {
-        return role;
+    public Set<Role> getRoles() {
+        return roles;
     }
 
-    public void setRole(Set<Role> role) {
-        this.role = role;
+    public void setRoles(Set<Role> role) {
+        this.roles = role;
     }
 }

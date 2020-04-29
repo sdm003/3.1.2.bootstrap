@@ -5,6 +5,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import web.model.Role;
 import web.model.User;
 import web.service.UserService;
 
@@ -18,43 +19,46 @@ public class AdminController {
 
     @GetMapping(value = "/")
     public String printCars(ModelMap model) {
-        model.addAttribute("listPersons", userServiceImpl.listUsers());
+        model.addAttribute("users", userServiceImpl.listUsers());
         return "admin";
     }
 
-    @GetMapping(value = "/edit")
-    public String editCar(@RequestParam Long id, ModelMap model) {
+    @GetMapping(value = "/edit/{id}")
+    public String edit(@PathVariable("id") long id, ModelMap model) {
         User user = new User();
         user.setId(id);
-        model.addAttribute("userr", user);
+        model.addAttribute("user", user);
         return "edit";
     }
 
     @PostMapping(value = "/edit")
-    public String editCar(@ModelAttribute("listPersons") User user, ModelMap model) {
+    public String editUser(@ModelAttribute("user") User user, ModelMap model) {
+        userServiceImpl.setRole(user,user.getRoles().stream().findAny().get());
         userServiceImpl.updateUser(user);
-        model.addAttribute("listPersons", userServiceImpl.listUsers());
+        model.addAttribute("users", userServiceImpl.listUsers());
         return "redirect:/admin/";
     }
 
     @PostMapping(value = "/newuser")
-    public String createUser(@ModelAttribute("listPersons") User user, ModelMap model) {
+    public String createUser(@ModelAttribute("user") User user, ModelMap model) {
+        userServiceImpl.setRole(user,user.getRoles().stream().findAny().get());
         userServiceImpl.add(user);
-        model.addAttribute("listPersons", userServiceImpl.listUsers());
+        model.addAttribute("users", userServiceImpl.listUsers());
         return "redirect:/admin/";
     }
 
     @GetMapping(value = "/newuser")
     public String createUsers(ModelMap model) {
         User users = new User();
-        model.addAttribute("users", users);
+        Role role = new Role();
+        model.addAttribute("user", users);
+        model.addAttribute("role", role);
         return "add";
     }
-
-    @GetMapping("/delete")
-    public String deleteUser(@RequestParam Long id, ModelMap model) {
+    @GetMapping(value = "/delete/{id}")
+    public String deleteUser(@PathVariable("id") long id, ModelMap model) {
         userServiceImpl.deleteUser(id);
-        model.addAttribute("listPersons", userServiceImpl.listUsers());
+        model.addAttribute("users", userServiceImpl.listUsers());
         return "redirect:/admin/";
     }
 

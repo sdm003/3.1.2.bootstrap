@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,11 +21,10 @@ import java.util.List;
 public class UserController {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String printWelcome(ModelMap model) {
+    public String printWelcome(ModelMap model, Principal principal) {
         List<String> messages = new ArrayList<>();
         messages.add("Hello!");
-        messages.add("I'm Spring MVC-SECURITY application");
-        messages.add("5.2.0 version by sep'19 ");
+        messages.add(principal.getName());
         model.addAttribute("messages", messages);
         return "hello";
     }

@@ -1,36 +1,40 @@
-
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
-<div align="center">
+<div align="left">
     <h1>New User</h1>
-    <form action="newuser" method="post" modelAttribute="users">
-        <table>
-            <hidden path="id" />
-            <tr>
-                <td>Name:</td>
-                <input type="text" th:field="*{name}" />  
-            </tr>
-            <tr>
-                <td>Age:</td>
-                <input type="text" th:field="*{age}" />  
-            </tr>
-            <tr>
-                <td>Street:</td>
-                <input type="text" th:field="*{street}" />  
-            </tr>
-            <tr>
-                <td>Password:</td>
-                <input type="text" th:field="*{password}" />  
-            </tr>
-            <tr>
-                <td>Role:</td>
-                <td><input path="role" /></td>
-            </tr>
-            <tr>
-                <td colspan="2" align="center"><input type="submit" value="create"></td>
-            </tr>
-        </table>
+    <form method="POST"
+          th:action="@{/admin/newuser}"
+          th:object="${user}">
+        Name    :
+        <br/>
+        <input type="text" th:field="*{name}"/>
+        <br/>
+        <br/>
+        Age     :
+        <br/>
+        <input type="number" th:field="*{age}" />
+        <br/>
+        <br/>
+        Street  :
+        <br/>
+        <input type="text" th:field="*{street}" />
+        <br/>
+        <br/>
+        password:
+        <br/>
+        <input type="password" th:field="*{password}" />
+        <br/>
+        <br/>
+        Role:
+        <br/>
+        <select th:field = "*{roles}">
+            <option th:value="'ADMIN'" th:text="ADMIN"></option>
+            <option th:value="'USER'" th:text="USER"></option>
+        </select>
+        <br/>
+        <br/>
+        <input type="submit" value="Create" />
     </form>
 </div>
 </body>
