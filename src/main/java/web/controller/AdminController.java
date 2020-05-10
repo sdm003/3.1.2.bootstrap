@@ -5,7 +5,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
-import web.model.Role;
 import web.model.User;
 import web.service.UserService;
 
@@ -20,15 +19,14 @@ public class AdminController {
     @GetMapping(value = "/")
     public String printCars(ModelMap model) {
         model.addAttribute("users", userServiceImpl.listUsers());
-        return "admin";
+        return "admin/admin";
     }
 
     @GetMapping(value = "/edit/{id}")
-    public String edit(@PathVariable("id") long id, ModelMap model) {
-        User user = new User();
-        user.setId(id);
+    public String edit(ModelMap model, @PathVariable long id) {
+        User user = userServiceImpl.getUserById(id);
         model.addAttribute("user", user);
-        return "edit";
+        return "admin/edit";
     }
 
     @PostMapping(value = "/edit")
@@ -39,7 +37,7 @@ public class AdminController {
         return "redirect:/admin/";
     }
 
-    @PostMapping(value = "/newuser")
+    @PostMapping(value = "/add")
     public String createUser(@ModelAttribute("user") User user, ModelMap model) {
         userServiceImpl.setRole(user,user.getRoles().stream().findAny().get());
         userServiceImpl.add(user);
@@ -47,14 +45,6 @@ public class AdminController {
         return "redirect:/admin/";
     }
 
-    @GetMapping(value = "/newuser")
-    public String createUsers(ModelMap model) {
-        User users = new User();
-        Role role = new Role();
-        model.addAttribute("user", users);
-        model.addAttribute("role", role);
-        return "add";
-    }
     @GetMapping(value = "/delete/{id}")
     public String deleteUser(@PathVariable("id") long id, ModelMap model) {
         userServiceImpl.deleteUser(id);

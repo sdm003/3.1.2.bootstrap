@@ -11,6 +11,7 @@ public interface UserService {
     List<User> listUsers();
     void updateUser(User car);
     void deleteUser(Long id);
+    User getUserById(Long id);
 
     void setRole(User user, Role role);
 }
